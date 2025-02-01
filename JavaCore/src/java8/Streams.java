@@ -2,9 +2,7 @@ package java8;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Predicate;
+import java.util.function.*;
 
 public class Streams {
     public static void main(String[] args) {
@@ -89,6 +87,52 @@ public class Streams {
         Consumer<List<Integer>> printAsString=x-> System.out.println(x.toString());
         printAsString.accept(Arrays.asList(1,2,3,4,5));
         printList.andThen(printAsString).accept(Arrays.asList(1,2,3,4,5));
+
+        /**
+         * Supplier
+         */
+        Supplier<String> giveHelloWorld=()->"Hello World!";
+        System.out.println(giveHelloWorld.get());
+
+        /**
+         * Combined Example
+         *
+         */
+        Predicate<Integer> predicate=x->x%2==0; // test weather the number is even
+        Function<Integer,Integer> function=x->x*x;
+        Consumer<Integer> consumer=x-> System.out.println(x);
+        Supplier<Integer> supplier=()->100;
+        if(predicate.test(supplier.get())){
+            consumer.accept(function.apply(supplier.get()));
+        }
+
+        /**
+         * Similarly we have
+         * BiPredicate, BiConsumer, BiFunction
+         */
+        System.out.println("Using the Bi-Functional-Interfaces: ");
+        BiPredicate<Integer,Integer> isSumEven =(a, b)->{
+            return (a+b)%2==0;
+        };
+        System.out.println("Sum of both the Numbers is Even: "+ isSumEven.test(51,72));
+
+        BiConsumer<Integer,String> printer=(a,b)->{
+            System.out.println(a+ " "+b);
+        };
+        printer.accept(10,"Hello World");
+
+        BiFunction<String,String,Integer> biFunction=(p,q)->(p+q).length();
+        System.out.println(biFunction.apply("abc","def"));
+
+
+//        Function replaced by UnaryOperator
+        Function<Integer,Integer> f1r=x->(2*x); // when both the object types are same
+        UnaryOperator<Integer> operator=x->(2*x);
+//        BiFunction replaced by BinaryOperator
+        BiFunction<Integer,Integer,Integer> biFunc2=(x,y)->x+y; // when all the object types are same
+        BinaryOperator<Integer> biOperator=(x,y)->x+y;
+        System.out.println(operator.apply(10));
+        System.out.println(biOperator.apply(10,20));
 
     }
 }
