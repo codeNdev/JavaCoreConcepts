@@ -133,7 +133,7 @@ public class Streams {
         BinaryOperator<Integer> biOperator=(x,y)->x+y;
         System.out.println(operator.apply(10));
         System.out.println(biOperator.apply(10,20));
-
+//       Aram ke liye hai yeh dono
     }
 }
 //class Task implements Runnable{
